@@ -1,0 +1,532 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Waged</title>
+  <meta name="description" content="Waged (@Piet) is a Roblox game developer: owner of Drift A Chair and programmer on MotoRush.">
+  <meta name="theme-color" content="#09090d">
+  <meta property="og:type" content="website">
+  <meta property="og:title" content="Waged · Roblox game developer">
+  <meta property="og:description" content="I make games on Roblox. Owner of Drift A Chair, programmer on MotoRush.">
+  <meta name="twitter:card" content="summary">
+  <meta name="twitter:site" content="@wagedfr">
+  <link rel="icon" href="favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://tr.rbxcdn.com">
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Unbounded:wght@600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+  <script>(function(d){var t=decodeURIComponent(location.hash.slice(1))||'about';d.classList.add('js');d.dataset.tab=t;if(t==='about')d.classList.add('intro')})(document.documentElement)</script>
+  <script src="script.js" defer></script>
+</head>
+<body>
+  <!-- Icon sprite -->
+  <svg width="0" height="0" style="position:absolute" aria-hidden="true">
+    <symbol id="i-roblox" viewBox="0 0 24 24"><path fill="currentColor" fill-rule="evenodd" d="M5.99 1.59 22.41 5.99 18.01 22.41 1.59 18.01ZM10.16 8.82 8.82 13.84 13.84 15.18 15.18 10.16Z"/></symbol>
+    <symbol id="i-discord" viewBox="0 0 24 24"><path fill="currentColor" d="M20.317 4.37a19.79 19.79 0 0 0-4.885-1.515.074.074 0 0 0-.079.037c-.21.375-.444.865-.608 1.25a18.27 18.27 0 0 0-5.487 0 12.64 12.64 0 0 0-.617-1.25.077.077 0 0 0-.079-.037A19.74 19.74 0 0 0 3.677 4.37a.07.07 0 0 0-.032.028C.533 9.046-.32 13.58.099 18.058a.082.082 0 0 0 .031.056 19.9 19.9 0 0 0 5.993 3.03.078.078 0 0 0 .084-.028c.462-.63.873-1.295 1.226-1.994a.076.076 0 0 0-.041-.106 13.1 13.1 0 0 1-1.872-.892.077.077 0 0 1-.008-.128c.126-.094.252-.192.372-.291a.074.074 0 0 1 .078-.01c3.928 1.793 8.18 1.793 12.061 0a.074.074 0 0 1 .079.009c.12.099.246.198.373.292a.077.077 0 0 1-.007.128 12.3 12.3 0 0 1-1.873.891.077.077 0 0 0-.041.107c.36.698.772 1.363 1.225 1.993a.076.076 0 0 0 .084.029 19.84 19.84 0 0 0 6.002-3.03.077.077 0 0 0 .032-.055c.5-5.177-.838-9.674-3.549-13.66a.061.061 0 0 0-.031-.029ZM8.02 15.331c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.956-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.332-.956 2.418-2.157 2.418Zm7.975 0c-1.183 0-2.157-1.086-2.157-2.419 0-1.333.955-2.419 2.157-2.419 1.21 0 2.176 1.095 2.157 2.42 0 1.332-.946 2.418-2.157 2.418Z"/></symbol>
+    <symbol id="i-x" viewBox="0 0 24 24"><path fill="currentColor" d="M18.901 1.153h3.68l-8.04 9.19L24 22.846h-7.406l-5.8-7.584-6.638 7.584H.474l8.6-9.83L0 1.154h7.594l5.243 6.932ZM17.61 20.644h2.039L6.486 3.24H4.298Z"/></symbol>
+    <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M7 17 17 7M8.5 7H17v8.5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+    <symbol id="i-copy" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="9" y="9" width="11" height="11" rx="2.5"/><path d="M5 15V6.5A2.5 2.5 0 0 1 7.5 4H15"/></g></symbol>
+    <symbol id="i-play" viewBox="0 0 24 24"><path fill="currentColor" d="M8 5.6v12.8a1 1 0 0 0 1.52.86l10.4-6.4a1 1 0 0 0 0-1.72L9.52 4.74A1 1 0 0 0 8 5.6Z"/></symbol>
+    <symbol id="i-medal" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M7.5 2.5 11 9M16.5 2.5 13 9"/><circle cx="12" cy="15" r="6"/></g><path fill="currentColor" d="m12 11.9 1 2 2.2.3-1.6 1.55.38 2.2L12 16.9l-1.98 1.05.38-2.2-1.6-1.55 2.2-.3Z"/></symbol>
+    <symbol id="i-egg" viewBox="0 0 24 24"><g fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2.5c-3.9 0-7 6.2-7 11a7 7 0 0 0 14 0c0-4.8-3.1-11-7-11Z"/><path d="m5.4 12.6 2.6-1.5 2 1.5 2-1.5 2 1.5 2-1.5 2.6 1.5" stroke-width="1.8"/></g></symbol>
+    <symbol id="i-verified" viewBox="0 0 24 24"><path fill="#3b82f6" d="m12 1.5 2.6 1.9 3.2-.1 1 3 2.6 1.9-1 3.1 1 3.1-2.6 1.9-1 3-3.2-.1L12 22.5l-2.6-1.9-3.2.1-1-3-2.6-1.9 1-3.1-1-3.1 2.6-1.9 1-3 3.2.1Z"/><path d="m8 12.2 2.7 2.7L16.2 9.3" fill="none" stroke="#fff" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></symbol>
+  </svg>
+
+  <div class="bg" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="wrap topbar__inner">
+      <a class="mark" href="#about" aria-label="Waged, home">W</a>
+      <nav class="tabs" aria-label="Sections">
+        <span class="tabs__pill" aria-hidden="true"></span>
+        <a href="#about" data-tab="about">About</a>
+        <a href="#games" data-tab="games">Games</a>
+        <a href="#highlights" data-tab="highlights">Highlights</a>
+        <a href="#socials" data-tab="socials">Socials</a>
+        <a href="#stats" data-tab="stats">Stats</a>
+      </nav>
+    </div>
+  </header>
+
+  <main class="wrap">
+
+    <!-- ============ ABOUT ============ -->
+    <section class="panel" id="about" aria-labelledby="about-title">
+      <div class="hero">
+        <div class="hero__text">
+          <p class="badge"><span class="dot" aria-hidden="true"></span>Roblox game developer</p>
+          <h1 class="hero__name" id="about-title"><span class="sr-only">Waged</span><span class="hero__letters" aria-hidden="true"><span class="l" style="--i:0">W</span><span class="l" style="--i:1">a</span><span class="l" style="--i:2">g</span><span class="l" style="--i:3">e</span><span class="l" style="--i:4">d</span></span></h1>
+          <p class="hero__handle">@Piet on Roblox</p>
+          <p class="hero__lead">I make games on Roblox, mostly ones with wheels.</p>
+          <div class="hero__cta">
+            <a class="btn btn--primary" href="https://www.roblox.com/games/98685921880394/Drift-A-Chair" target="_blank" rel="noopener">
+              <svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Play Drift A Chair
+            </a>
+            <a class="btn btn--ghost" href="#games">See my games</a>
+          </div>
+        </div>
+        <div class="hero__art">
+          <div class="hero__dots" aria-hidden="true"></div>
+          <div class="hero__glow" aria-hidden="true"></div>
+          <span class="hero__fallback" aria-hidden="true">W</span>
+          <img class="hero__avatar" data-img="avatar" width="720" height="720"
+               src="https://tr.rbxcdn.com/30DAY-Avatar-9B988B4939B2C4A5D556ED785C8BB488-Png/720/720/Avatar/Png/noFilter"
+               alt="Waged's Roblox avatar" fetchpriority="high"
+               onerror="this.parentNode.classList.add('is-missing')">
+        </div>
+      </div>
+
+      <ul class="strip" aria-label="Highlights">
+        <li class="strip__item">
+          <span class="strip__num" data-stat="total.visits">101M+</span>
+          <span class="strip__label">visits across my games</span>
+        </li>
+        <li class="strip__item">
+          <span class="strip__num" data-stat="total.favorites">236K+</span>
+          <span class="strip__label">favorites</span>
+        </li>
+        <li class="strip__item">
+          <span class="strip__num"><span class="dot" aria-hidden="true"></span><span data-stat="total.playing">123</span></span>
+          <span class="strip__label">playing right now</span>
+        </li>
+      </ul>
+
+      <section class="block" aria-labelledby="about-socials">
+        <h2 class="label" id="about-socials">Socials</h2>
+        <ul class="links">
+          <li>
+            <button class="link" type="button" data-copy="waged" aria-label="Discord: waged. Copy username">
+              <span class="link__icon link__icon--discord"><svg aria-hidden="true"><use href="#i-discord"/></svg></span>
+              <span class="link__text"><span class="link__name">Discord</span><span class="link__handle">waged</span></span>
+              <svg class="link__go" aria-hidden="true"><use href="#i-copy"/></svg>
+            </button>
+          </li>
+          <li>
+            <a class="link" href="https://www.roblox.com/users/53919328/profile" target="_blank" rel="noopener">
+              <span class="link__icon link__icon--roblox"><svg aria-hidden="true"><use href="#i-roblox"/></svg></span>
+              <span class="link__text"><span class="link__name">Roblox</span><span class="link__handle">@Piet</span></span>
+              <svg class="link__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </li>
+          <li>
+            <a class="link" href="https://x.com/wagedfr" target="_blank" rel="noopener">
+              <span class="link__icon link__icon--x"><svg aria-hidden="true"><use href="#i-x"/></svg></span>
+              <span class="link__text"><span class="link__name">X (Twitter)</span><span class="link__handle">@wagedfr</span></span>
+              <svg class="link__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </li>
+        </ul>
+      </section>
+
+      <section class="block" aria-labelledby="about-games">
+        <h2 class="label" id="about-games">My games</h2>
+        <ul class="game-list">
+          <li>
+            <a class="game" href="https://www.roblox.com/games/98685921880394/Drift-A-Chair" target="_blank" rel="noopener">
+              <span class="thumb" data-initials="DC">
+                <img data-img="drift.icon" width="512" height="512" alt=""
+                     src="https://tr.rbxcdn.com/180DAY-e4045533be6a2ea87a22ec6143494a2c/512/512/Image/Png/noFilter"
+                     onerror="this.classList.add('is-broken')">
+              </span>
+              <span class="game__body">
+                <span class="game__title">Drift A Chair</span>
+                <span class="game__desc">Hop on an office chair and drift your way up the leaderboard.</span>
+                <span class="chips">
+                  <span class="chip chip--accent">Owner</span>
+                  <span class="chip chip--new">New</span>
+                  <span class="chip"><b data-stat="drift.visits">12.9K+</b>&nbsp;visits</span>
+                </span>
+              </span>
+              <svg class="link__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </li>
+          <li>
+            <a class="game" href="https://www.roblox.com/games/14055498520/MotoRush" target="_blank" rel="noopener">
+              <span class="thumb" data-initials="MR">
+                <img data-img="motorush.icon" width="512" height="512" alt=""
+                     src="https://tr.rbxcdn.com/180DAY-adf90d93f060ea4f1b6043b7e39f8bf3/512/512/Image/Png/noFilter"
+                     onerror="this.classList.add('is-broken')">
+              </span>
+              <span class="game__body">
+                <span class="game__title">MotoRush</span>
+                <span class="game__desc">Ride and customize realistic motorcycles on open highways.</span>
+                <span class="chips">
+                  <span class="chip chip--accent">Programmer</span>
+                  <span class="chip"><b data-stat="motorush.visits">101M+</b>&nbsp;visits</span>
+                </span>
+              </span>
+              <svg class="link__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+            </a>
+          </li>
+        </ul>
+        <a class="more" href="#stats">See live stats <svg aria-hidden="true"><use href="#i-arrow"/></svg></a>
+      </section>
+
+      <section class="block" aria-labelledby="about-studios">
+        <h2 class="label" id="about-studios">Studios</h2>
+        <ul class="studios">
+          <li>
+            <a class="studio" href="https://www.roblox.com/communities/34291085/Titan-Works" target="_blank" rel="noopener">
+              <span class="thumb thumb--sm" data-initials="TW"><img data-img="group.titan" alt="" onerror="this.classList.add('is-broken')"></span>
+              <span class="studio__text">
+                <span class="studio__name">Titan Works</span>
+                <span class="studio__role">Owner</span>
+              </span>
+              <span class="studio__count"><b data-stat="group.titan">32</b><small>members</small></span>
+            </a>
+          </li>
+          <li>
+            <a class="studio" href="https://www.roblox.com/communities/32734353/MotoRush-Inc" target="_blank" rel="noopener">
+              <span class="thumb thumb--sm" data-initials="MR"><img data-img="group.motorush" alt="" onerror="this.classList.add('is-broken')"></span>
+              <span class="studio__text">
+                <span class="studio__name">MotoRush Inc <svg class="verified" aria-label="Verified" role="img"><use href="#i-verified"/></svg></span>
+                <span class="studio__role">Programmer</span>
+              </span>
+              <span class="studio__count"><b data-stat="group.motorush">135,468</b><small>members</small></span>
+            </a>
+          </li>
+        </ul>
+      </section>
+    </section>
+
+    <!-- ============ GAMES ============ -->
+    <section class="panel" id="games" aria-labelledby="games-title">
+      <header class="panel__head">
+        <h2 class="panel__title" id="games-title">Games</h2>
+        <p class="panel__sub">Things I've built and worked on.</p>
+      </header>
+
+      <article class="showcase" data-game="drift" aria-labelledby="sc-drift">
+        <div class="showcase__media" data-carousel>
+          <div class="slides">
+            <img class="is-active" loading="lazy" decoding="async" width="768" height="432" alt="Drift A Chair screenshot 1" src="https://tr.rbxcdn.com/180DAY-03df90c56530873c767c70db2b0fc10e/768/432/Image/Png/noFilter">
+            <img loading="lazy" decoding="async" width="768" height="432" alt="Drift A Chair screenshot 2" src="https://tr.rbxcdn.com/180DAY-fddfa2bbbb205627e3ca5c84a3db1dff/768/432/Image/Png/noFilter">
+            <img loading="lazy" decoding="async" width="768" height="432" alt="Drift A Chair screenshot 3" src="https://tr.rbxcdn.com/180DAY-7c64eb5baae16797f8bc29def3690f28/768/432/Image/Png/noFilter">
+          </div>
+          <div class="dots" role="group" aria-label="Screenshots"></div>
+        </div>
+        <div class="showcase__body">
+          <div class="showcase__top">
+            <span class="thumb thumb--md" data-initials="DC">
+              <img data-img="drift.icon" width="512" height="512" alt="" loading="lazy"
+                   src="https://tr.rbxcdn.com/180DAY-e4045533be6a2ea87a22ec6143494a2c/512/512/Image/Png/noFilter"
+                   onerror="this.classList.add('is-broken')">
+            </span>
+            <div>
+              <h3 class="showcase__name" id="sc-drift">Drift A Chair <span class="chip chip--new">New</span></h3>
+              <p class="showcase__studio">by Titan Works</p>
+            </div>
+          </div>
+          <p class="showcase__desc">Jump on a chair and drift your way to the top of the leaderboard. Unlock chairs, steering wheels, brake levers and trails, chase daily and weekly challenges, and log in seven days straight for the Royal set.</p>
+          <dl class="facts">
+            <div><dt>My role</dt><dd>Owner</dd></div>
+            <div><dt>Genre</dt><dd>Racing</dd></div>
+            <div><dt>Released</dt><dd>Oct 2026</dd></div>
+          </dl>
+          <div class="showcase__foot">
+            <div class="chips">
+              <span class="chip"><b data-stat="drift.visits">12.9K+</b>&nbsp;visits</span>
+              <span class="chip"><span class="dot" aria-hidden="true"></span><b data-stat="drift.playing">24</b>&nbsp;playing</span>
+            </div>
+            <a class="btn btn--primary" href="https://www.roblox.com/games/98685921880394/Drift-A-Chair" target="_blank" rel="noopener">
+              <svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Play
+            </a>
+          </div>
+        </div>
+      </article>
+
+      <article class="showcase showcase--flip" data-game="motorush" aria-labelledby="sc-motorush">
+        <div class="showcase__media" data-carousel>
+          <div class="slides">
+            <img class="is-active" loading="lazy" decoding="async" width="768" height="432" alt="MotoRush screenshot 1" src="https://tr.rbxcdn.com/180DAY-f0b42267859460df7a1c6cbb5cc88ab5/768/432/Image/Png/noFilter">
+            <img loading="lazy" decoding="async" width="768" height="432" alt="MotoRush screenshot 2" src="https://tr.rbxcdn.com/180DAY-06c696146188fb8ccfb17fc8883449c3/768/432/Image/Png/noFilter">
+            <img loading="lazy" decoding="async" width="768" height="432" alt="MotoRush screenshot 3" src="https://tr.rbxcdn.com/180DAY-34c443e34a035f07ab824ab44de5ef3f/768/432/Image/Png/noFilter">
+          </div>
+          <div class="dots" role="group" aria-label="Screenshots"></div>
+        </div>
+        <div class="showcase__body">
+          <div class="showcase__top">
+            <span class="thumb thumb--md" data-initials="MR">
+              <img data-img="motorush.icon" width="512" height="512" alt="" loading="lazy"
+                   src="https://tr.rbxcdn.com/180DAY-adf90d93f060ea4f1b6043b7e39f8bf3/512/512/Image/Png/noFilter"
+                   onerror="this.classList.add('is-broken')">
+            </span>
+            <div>
+              <h3 class="showcase__name" id="sc-motorush">MotoRush</h3>
+              <p class="showcase__studio">by MotoRush Inc <svg class="verified" aria-label="Verified" role="img"><use href="#i-verified"/></svg></p>
+            </div>
+          </div>
+          <p class="showcase__desc">An open-road motorcycle game inspired by Ride 5 and No Hesi. Tune your bike and helmet, listen to realistic exhaust notes, and weave through traffic on your favourite superbike. Works on every device.</p>
+          <dl class="facts">
+            <div><dt>My role</dt><dd>Programmer</dd></div>
+            <div><dt>Genre</dt><dd>Vehicle sim</dd></div>
+            <div><dt>Released</dt><dd>July 2023</dd></div>
+          </dl>
+          <div class="showcase__foot">
+            <div class="chips">
+              <span class="chip"><b data-stat="motorush.visits">101M+</b>&nbsp;visits</span>
+              <span class="chip"><span class="dot" aria-hidden="true"></span><b data-stat="motorush.playing">99</b>&nbsp;playing</span>
+            </div>
+            <a class="btn btn--primary" href="https://www.roblox.com/games/14055498520/MotoRush" target="_blank" rel="noopener">
+              <svg class="ico" aria-hidden="true"><use href="#i-play"/></svg>Play
+            </a>
+          </div>
+        </div>
+      </article>
+    </section>
+
+    <!-- ============ HIGHLIGHTS ============ -->
+    <section class="panel" id="highlights" aria-labelledby="highlights-title">
+      <header class="panel__head">
+        <h2 class="panel__title" id="highlights-title">Highlights</h2>
+        <p class="panel__sub">Roblox events my games were part of, and every RDC I've been to.</p>
+      </header>
+
+      <section class="block" aria-labelledby="hl-events">
+        <h3 class="label" id="hl-events">Featured in Roblox events</h3>
+        <ul class="events">
+          <li>
+            <article class="event event--games" aria-labelledby="ev-games">
+              <div class="event__top">
+                <span class="event__icon"><svg aria-hidden="true"><use href="#i-medal"/></svg></span>
+                <span class="event__when">August 2024</span>
+              </div>
+              <h4 class="event__name" id="ev-games">The Games</h4>
+              <p class="event__desc">MotoRush was one of the games in Roblox's summer event, where five teams led by top creators competed across the featured experiences.</p>
+              <div class="event__with">
+                <p class="label">Alongside</p>
+                <ul class="chips">
+                  <li class="chip">KreekCraft</li>
+                  <li class="chip">Dress to Impress</li>
+                  <li class="chip">Blade Ball</li>
+                  <li class="chip">Adopt Me!</li>
+                  <li class="chip chip--more">and many more</li>
+                </ul>
+              </div>
+              <a class="event__foot" href="https://www.roblox.com/games/14055498520/MotoRush" target="_blank" rel="noopener">
+                <span class="thumb thumb--xs" data-initials="MR">
+                  <img data-img="motorush.icon" width="512" height="512" alt="" loading="lazy"
+                       src="https://tr.rbxcdn.com/180DAY-adf90d93f060ea4f1b6043b7e39f8bf3/512/512/Image/Png/noFilter"
+                       onerror="this.classList.add('is-broken')">
+                </span>
+                <span><small>Featured game</small>MotoRush</span>
+                <svg class="link__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+              </a>
+            </article>
+          </li>
+          <li>
+            <article class="event event--hatch" aria-labelledby="ev-hatch">
+              <div class="event__top">
+                <span class="event__icon"><svg aria-hidden="true"><use href="#i-egg"/></svg></span>
+                <span class="event__when">July 2025</span>
+              </div>
+              <h4 class="event__name" id="ev-hatch">The Hatch</h4>
+              <p class="event__desc">MotoRush was one of the games in The Hatch, Roblox's egg hunt that ran across hundreds of experiences at once.</p>
+              <a class="event__foot" href="https://www.roblox.com/games/14055498520/MotoRush" target="_blank" rel="noopener">
+                <span class="thumb thumb--xs" data-initials="MR">
+                  <img data-img="motorush.icon" width="512" height="512" alt="" loading="lazy"
+                       src="https://tr.rbxcdn.com/180DAY-adf90d93f060ea4f1b6043b7e39f8bf3/512/512/Image/Png/noFilter"
+                       onerror="this.classList.add('is-broken')">
+                </span>
+                <span><small>Featured game</small>MotoRush</span>
+                <svg class="link__go" aria-hidden="true"><use href="#i-arrow"/></svg>
+              </a>
+            </article>
+          </li>
+        </ul>
+      </section>
+
+      <section class="block" aria-labelledby="hl-rdc">
+        <h3 class="label" id="hl-rdc">Roblox Developers Conference</h3>
+        <ol class="passes">
+          <li>
+            <div class="pass">
+              <span class="pass__org">RDC</span>
+              <span class="pass__year">2024</span>
+              <span class="pass__type">Virtual</span>
+            </div>
+          </li>
+          <li>
+            <div class="pass pass--live">
+              <span class="pass__org">RDC</span>
+              <span class="pass__year">2025</span>
+              <span class="pass__type">In person</span>
+            </div>
+          </li>
+          <li>
+            <div class="pass">
+              <span class="pass__org">RDC</span>
+              <span class="pass__year">2026</span>
+              <span class="pass__type">Virtual</span>
+            </div>
+          </li>
+        </ol>
+      </section>
+    </section>
+
+    <!-- ============ SOCIALS ============ -->
+    <section class="panel" id="socials" aria-labelledby="socials-title">
+      <header class="panel__head">
+        <h2 class="panel__title" id="socials-title">Socials</h2>
+        <p class="panel__sub">Where to find me. DMs are open on Discord.</p>
+      </header>
+      <ul class="scards">
+        <li>
+          <button class="scard" style="--brand:#5865f2" type="button" data-copy="waged" aria-label="Discord: waged. Copy username">
+            <span class="scard__icon scard__icon--discord"><svg aria-hidden="true"><use href="#i-discord"/></svg></span>
+            <span class="scard__text"><span class="scard__name">Discord</span><span class="scard__handle">waged</span></span>
+            <span class="scard__cta">Copy username <svg aria-hidden="true"><use href="#i-copy"/></svg></span>
+          </button>
+        </li>
+        <li>
+          <a class="scard" style="--brand:#a78bfa" href="https://www.roblox.com/users/53919328/profile" target="_blank" rel="noopener">
+            <span class="scard__icon"><svg aria-hidden="true"><use href="#i-roblox"/></svg></span>
+            <span class="scard__text"><span class="scard__name">Roblox</span><span class="scard__handle">@Piet</span></span>
+            <span class="scard__cta">View profile <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </li>
+        <li>
+          <a class="scard" style="--brand:#e7e7ee" href="https://x.com/wagedfr" target="_blank" rel="noopener">
+            <span class="scard__icon"><svg aria-hidden="true"><use href="#i-x"/></svg></span>
+            <span class="scard__text"><span class="scard__name">X (Twitter)</span><span class="scard__handle">@wagedfr</span></span>
+            <span class="scard__cta">Follow <svg aria-hidden="true"><use href="#i-arrow"/></svg></span>
+          </a>
+        </li>
+      </ul>
+    </section>
+
+    <!-- ============ STATS ============ -->
+    <section class="panel" id="stats" aria-labelledby="stats-title">
+      <header class="panel__head">
+        <h2 class="panel__title" id="stats-title">Stats</h2>
+        <p class="panel__sub">Live numbers for my games and studios, from Roblox.</p>
+      </header>
+
+      <div class="stats">
+        <div class="card total">
+          <div>
+            <p class="card__label">Combined visits</p>
+            <p class="big" data-stat="total.visits" data-count>101M+</p>
+            <p class="full" data-stat="total.visitsFull">101,147,276 total</p>
+          </div>
+          <div class="tiles">
+            <div class="tile">
+              <span class="tile__label"><span class="dot" aria-hidden="true"></span>Playing</span>
+              <span class="tile__value" data-stat="total.playing">123</span>
+            </div>
+            <div class="tile">
+              <span class="tile__label">Favorites</span>
+              <span class="tile__value" data-stat="total.favorites">236K+</span>
+            </div>
+            <div class="tile">
+              <span class="tile__label">Games</span>
+              <span class="tile__value">2</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head">
+            <span class="thumb thumb--md" data-initials="DC">
+              <img data-img="drift.icon" width="512" height="512" alt="" loading="lazy"
+                   src="https://tr.rbxcdn.com/180DAY-e4045533be6a2ea87a22ec6143494a2c/512/512/Image/Png/noFilter"
+                   onerror="this.classList.add('is-broken')">
+            </span>
+            <h3 class="card__title">Drift A Chair</h3>
+            <a class="btn btn--primary btn--sm" href="https://www.roblox.com/games/98685921880394/Drift-A-Chair" target="_blank" rel="noopener" aria-label="Play Drift A Chair">Play</a>
+          </div>
+          <p class="card__label">Visits</p>
+          <p class="big big--sm" data-stat="drift.visits" data-count>12.9K+</p>
+          <p class="full" data-stat="drift.visitsFull">12,928 total</p>
+          <div class="tiles">
+            <div class="tile">
+              <span class="tile__label"><span class="dot" aria-hidden="true"></span>Playing</span>
+              <span class="tile__value" data-stat="drift.playing">24</span>
+            </div>
+            <div class="tile">
+              <span class="tile__label">Favorites</span>
+              <span class="tile__value" data-stat="drift.favorites">76</span>
+            </div>
+            <div class="tile">
+              <span class="tile__label">Rating</span>
+              <span class="tile__value" data-stat="drift.rating">61%</span>
+              <span class="meter"><span class="meter__fill" data-meter="drift" style="width:61%"></span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <div class="card__head">
+            <span class="thumb thumb--md" data-initials="MR">
+              <img data-img="motorush.icon" width="512" height="512" alt="" loading="lazy"
+                   src="https://tr.rbxcdn.com/180DAY-adf90d93f060ea4f1b6043b7e39f8bf3/512/512/Image/Png/noFilter"
+                   onerror="this.classList.add('is-broken')">
+            </span>
+            <h3 class="card__title">MotoRush</h3>
+            <a class="btn btn--primary btn--sm" href="https://www.roblox.com/games/14055498520/MotoRush" target="_blank" rel="noopener" aria-label="Play MotoRush">Play</a>
+          </div>
+          <p class="card__label">Visits</p>
+          <p class="big big--sm" data-stat="motorush.visits" data-count>101M+</p>
+          <p class="full" data-stat="motorush.visitsFull">101,134,348 total</p>
+          <div class="tiles">
+            <div class="tile">
+              <span class="tile__label"><span class="dot" aria-hidden="true"></span>Playing</span>
+              <span class="tile__value" data-stat="motorush.playing">99</span>
+            </div>
+            <div class="tile">
+              <span class="tile__label">Favorites</span>
+              <span class="tile__value" data-stat="motorush.favorites">236K+</span>
+            </div>
+            <div class="tile">
+              <span class="tile__label">Rating</span>
+              <span class="tile__value" data-stat="motorush.rating">90%</span>
+              <span class="meter"><span class="meter__fill" data-meter="motorush" style="width:90%"></span></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="stats__side">
+          <h3 class="label">Studios</h3>
+          <ul class="studios">
+            <li>
+              <a class="studio" href="https://www.roblox.com/communities/34291085/Titan-Works" target="_blank" rel="noopener">
+                <span class="thumb thumb--sm" data-initials="TW"><img data-img="group.titan" alt="" onerror="this.classList.add('is-broken')"></span>
+                <span class="studio__text">
+                  <span class="studio__name">Titan Works</span>
+                  <span class="studio__role">Roblox community</span>
+                </span>
+                <span class="studio__count"><b data-stat="group.titan">32</b><small>members</small></span>
+              </a>
+            </li>
+            <li>
+              <a class="studio" href="https://www.roblox.com/communities/32734353/MotoRush-Inc" target="_blank" rel="noopener">
+                <span class="thumb thumb--sm" data-initials="MR"><img data-img="group.motorush" alt="" onerror="this.classList.add('is-broken')"></span>
+                <span class="studio__text">
+                  <span class="studio__name">MotoRush Inc <svg class="verified" aria-label="Verified" role="img"><use href="#i-verified"/></svg></span>
+                  <span class="studio__role">Roblox community</span>
+                </span>
+                <span class="studio__count"><b data-stat="group.motorush">135,468</b><small>members</small></span>
+              </a>
+            </li>
+          </ul>
+        </div>
+      </div>
+
+      <p class="stamp" id="stamp" aria-live="polite">Numbers saved on 5 Nov 2026. Data from Roblox.</p>
+    </section>
+  </main>
+
+  <footer class="wrap footer">
+    <span>&copy; 2026 Waged</span>
+    <span class="footer__links">
+      <button type="button" data-copy="waged" aria-label="Copy Discord username"><svg aria-hidden="true"><use href="#i-discord"/></svg></button>
+      <a href="https://www.roblox.com/users/53919328/profile" target="_blank" rel="noopener" aria-label="Roblox"><svg aria-hidden="true"><use href="#i-roblox"/></svg></a>
+      <a href="https://x.com/wagedfr" target="_blank" rel="noopener" aria-label="X (Twitter)"><svg aria-hidden="true"><use href="#i-x"/></svg></a>
+    </span>
+  </footer>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+</body>
+</html>
