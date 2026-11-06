@@ -18,6 +18,7 @@
   };
   const PROXY = 'roproxy.com';
   const REFRESH_MS = 60_000;
+  const SAVED_ON = '5 Nov 2026';
 
   // Snapshot from 5 Nov 2026, used until live data arrives.
   const state = {
@@ -36,92 +37,14 @@
     Object.assign(state.groups, STATIC.state.groups ?? {});
   }
 
+  const root = document.documentElement;
   const reduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const finePointer = window.matchMedia('(hover: hover) and (pointer: fine)').matches;
   const fmt = new Intl.NumberFormat('en-US');
-  const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
+  const $ = (sel, el = document) => el.querySelector(sel);
+  const $$ = (sel, el = document) => [...el.querySelectorAll(sel)];
   const byUniverse = Object.fromEntries(Object.entries(GAMES).map(([k, g]) => [g.universeId, k]));
   const universeIds = Object.values(GAMES).map((g) => g.universeId).join(',');
-
-  /* ---------------- Tabs ---------------- */
-
-  const TABS = ['about', 'games', 'highlights', 'socials', 'stats'];
-  const TITLES = {
-    about: 'Waged',
-    games: 'Games · Waged',
-    highlights: 'Highlights · Waged',
-    socials: 'Socials · Waged',
-    stats: 'Stats · Waged',
-  };
-  const panels = Object.fromEntries(TABS.map((id) => [id, document.getElementById(id)]));
-  const tabLinks = $$('.tabs a[data-tab]');
-  const pill = document.querySelector('.tabs__pill');
-  let activeTab = null;
-
-  const tabFromHash = () => {
-    const h = decodeURIComponent(location.hash.slice(1));
-    return TABS.includes(h) ? h : 'about';
-  };
-
-  function movePill() {
-    const link = tabLinks.find((a) => a.dataset.tab === activeTab);
-    if (!pill || !link) return;
-    pill.style.width = `${link.offsetWidth}px`;
-    pill.style.transform = `translateX(${link.offsetLeft}px)`;
-    // On the narrowest phones the tab bar scrolls: keep the active tab in view.
-    const nav = link.parentElement;
-    if (nav.scrollWidth > nav.clientWidth) {
-      nav.scrollTo({ left: link.offsetLeft - (nav.clientWidth - link.offsetWidth) / 2, behavior: 'smooth' });
-    }
-  }
-
-  // Rise the panel's pieces in one after another.
-  function enter(panel) {
-    const items = [...panel.children].flatMap((c) => (c.matches('.scards, .stats') ? [...c.children] : [c]));
-    items.forEach((el, i) => {
-      el.classList.remove('st');
-      el.style.setProperty('--d', String(Math.min(i, 8)));
-    });
-    void panel.offsetWidth; // restart the animation
-    items.forEach((el) => el.classList.add('st'));
-    clearTimeout(panel.stTimer);
-    // Hand back to the scroll animations once the entrance is done.
-    panel.stTimer = setTimeout(() => items.forEach((el) => el.classList.remove('st')), 1400);
-  }
-
-  function showTab(id, initial = false) {
-    if (id === activeTab) return;
-    activeTab = id;
-    document.documentElement.dataset.tab = id;
-    if (!initial) document.documentElement.classList.remove('intro');
-
-    for (const t of TABS) {
-      const panel = panels[t];
-      const on = t === id;
-      panel.hidden = !on;
-      if (on && !initial && !reduceMotion) enter(panel);
-    }
-
-    for (const a of tabLinks) {
-      if (a.dataset.tab === id) a.setAttribute('aria-current', 'page');
-      else a.removeAttribute('aria-current');
-    }
-
-    movePill();
-    document.title = TITLES[id];
-    if (!initial) window.scrollTo({ top: 0, behavior: 'instant' });
-    if (id === 'stats') countUp();
-  }
-
-  window.addEventListener('hashchange', () => showTab(tabFromHash()));
-  window.addEventListener('resize', movePill);
-  document.fonts?.ready.then(movePill);
-
-  /* ---------------- Top bar border on scroll ---------------- */
-
-  const topbar = document.querySelector('.topbar');
-  const onScroll = () => topbar.classList.toggle('is-scrolled', window.scrollY > 4);
-  window.addEventListener('scroll', onScroll, { passive: true });
-  onScroll();
 
   /* ---------------- Number formatting ---------------- */
 
@@ -139,11 +62,18 @@
     return fmt.format(Math.floor(n));
   }
 
+  const FORMATS = {
+    num: (n) => fmt.format(Math.round(n)),
+    compact: (n) => compact(n),
+    pct: (n) => `${Math.round(n)}%`,
+  };
+
   const values = {};
 
   function setStat(key, text, raw, animate) {
-    if (raw !== undefined) values[key] = raw;
+    if (raw !== undefined && raw !== null) values[key] = raw;
     for (const el of $$(`[data-stat="${key}"]`)) {
+      if (el.dataset.counting !== undefined) continue;   // a count-up is running; it lands on the latest value
       if (el.textContent === text) continue;
       el.textContent = text;
       if (animate && !reduceMotion) {
@@ -163,18 +93,14 @@
       favorites += g.favorites;
 
       setStat(`${key}.visits`, compact(g.visits), g.visits, animate);
-      setStat(`${key}.visitsFull`, `${fmt.format(g.visits)} total`, undefined, false);
       setStat(`${key}.playing`, fmt.format(g.playing), g.playing, animate);
-      setStat(`${key}.favorites`, compact(g.favorites), g.favorites, animate);
 
       const votes = g.up + g.down;
       const rating = votes ? Math.round((g.up / votes) * 100) : null;
       setStat(`${key}.rating`, rating === null ? '–' : `${rating}%`, rating, animate);
-      for (const el of $$(`[data-meter="${key}"]`)) el.style.width = `${rating ?? 0}%`;
     }
 
     setStat('total.visits', compact(visits), visits, animate);
-    setStat('total.visitsFull', `${fmt.format(visits)} total`, undefined, false);
     setStat('total.playing', fmt.format(playing), playing, animate);
     setStat('total.favorites', compact(favorites), favorites, animate);
 
@@ -183,34 +109,179 @@
     }
   }
 
-  // Count the big visit numbers up the first time the Stats tab opens.
-  let counted = false;
-  function countUp() {
-    if (counted || reduceMotion) return;
-    counted = true;
-    // Fill the rating bars from empty.
-    for (const bar of $$('[data-meter]')) {
-      const width = bar.style.width;
-      bar.style.transition = 'none';
-      bar.style.width = '0%';
-      void bar.offsetWidth;
-      bar.style.transition = '';
-      requestAnimationFrame(() => { bar.style.width = width; });
-    }
-    const els = $$('[data-count]');
-    const start = performance.now();
-    const duration = 1100;
-    const ease = (t) => 1 - Math.pow(1 - t, 4);
+  /* ---------------- Count-up ---------------- */
+
+  function countUp(el, delay = 0) {
+    const key = el.dataset.stat;
+    const format = FORMATS[el.dataset.count] ?? FORMATS.num;
+    if (values[key] == null || el.dataset.counting !== undefined) return;
+    el.dataset.counting = '';
+    const start = performance.now() + delay;
+    const duration = 1500;
+    const ease = (t) => (t >= 1 ? 1 : 1 - Math.pow(2, -10 * t));
+    el.textContent = format(0);
     const tick = (now) => {
-      const t = Math.min(1, (now - start) / duration);
-      for (const el of els) {
-        const target = values[el.dataset.stat] ?? 0;
-        el.textContent = compact(Math.max(1, target * ease(t)));
-      }
+      const t = Math.min(1, Math.max(0, (now - start) / duration));
+      el.textContent = format(values[key] * ease(t));
       if (t < 1) requestAnimationFrame(tick);
+      else delete el.dataset.counting;
     };
     requestAnimationFrame(tick);
   }
+
+  /* ---------------- Scroll reveals ---------------- */
+
+  // Rows in a list come in one after another.
+  for (const list of $$('.list')) {
+    [...list.children].forEach((li, i) => li.style.setProperty('--d', String(Math.min(i, 6))));
+  }
+
+  const revealEls = $$('.block__title, .block__sub, .work, .list > li, .foot');
+  const contentCounts = $$('.content [data-count]');
+
+  if (!reduceMotion && 'IntersectionObserver' in window) {
+    const reveal = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        reveal.unobserve(e.target);
+        e.target.classList.add('in');
+      }
+    }, { rootMargin: '0px 0px -8% 0px', threshold: 0.12 });
+    revealEls.forEach((el) => reveal.observe(el));
+
+    // Numbers count up once they're properly on screen.
+    const counter = new IntersectionObserver((entries) => {
+      for (const e of entries) {
+        if (!e.isIntersecting) continue;
+        counter.unobserve(e.target);
+        countUp(e.target, 150);
+      }
+    }, { threshold: 1 });
+    contentCounts.forEach((el) => counter.observe(el));
+  } else {
+    revealEls.forEach((el) => el.classList.add('in'));
+  }
+  root.classList.add('js-ready');
+
+  /* ---------------- Screenshots: story bars, slow drift, tilt ---------------- */
+
+  for (const media of $$('.work__media')) {
+    const slides = $$('.slides img', media);
+    if (slides.length < 2) continue;
+
+    const bars = document.createElement('span');
+    bars.className = 'bars';
+    bars.setAttribute('aria-hidden', 'true');
+    const segs = slides.map(() => bars.appendChild(document.createElement('i')));
+    media.append(bars);
+
+    let i = 0;
+    const show = (n) => {
+      slides[i].classList.remove('is-on');
+      i = n;
+      slides[i].classList.add('is-on');
+      segs.forEach((s, j) => {
+        s.classList.toggle('done', j < i || (reduceMotion && j === i));
+        s.classList.remove('run');
+      });
+      if (!reduceMotion) {
+        void segs[i].offsetWidth;
+        segs[i].classList.add('run');
+      }
+    };
+    // When the current bar fills up, move to the next screenshot (hovering pauses the bar).
+    segs.forEach((s) => s.addEventListener('animationend', () => show((i + 1) % slides.length)));
+    show(0);
+  }
+
+  if (finePointer && !reduceMotion) {
+    for (const media of $$('.work__media')) {
+      let frame = 0;
+      media.addEventListener('pointermove', (e) => {
+        cancelAnimationFrame(frame);
+        frame = requestAnimationFrame(() => {
+          const r = media.getBoundingClientRect();
+          media.style.setProperty('--px', (((e.clientX - r.left) / r.width) * 2 - 1).toFixed(3));
+          media.style.setProperty('--py', (((e.clientY - r.top) / r.height) * 2 - 1).toFixed(3));
+        });
+      });
+      media.addEventListener('pointerleave', () => {
+        cancelAnimationFrame(frame);
+        media.style.setProperty('--px', '0');
+        media.style.setProperty('--py', '0');
+      });
+    }
+
+    /* Social buttons lean toward the cursor */
+    for (const el of $$('.social')) {
+      el.addEventListener('pointermove', (e) => {
+        const r = el.getBoundingClientRect();
+        const x = e.clientX - (r.left + r.width / 2);
+        const y = e.clientY - (r.top + r.height / 2);
+        el.style.translate = `${(x * 0.3).toFixed(1)}px ${(y * 0.4).toFixed(1)}px`;
+      });
+      el.addEventListener('pointerleave', () => { el.style.translate = ''; });
+    }
+  }
+
+  /* ---------------- Menu underline + scroll progress ---------------- */
+
+  const menuLinks = $$('.menu a, .mbar__links a');
+  const sections = [...new Set(menuLinks.map((a) => a.hash.slice(1)))]
+    .map((id) => document.getElementById(id))
+    .filter(Boolean);
+  const progress = $('.progress');
+  let lockUntil = 0;   // after a click, keep that link underlined while the page scrolls there
+
+  function setActive(id) {
+    for (const a of menuLinks) {
+      if (id && a.hash === `#${id}`) a.setAttribute('aria-current', 'true');
+      else a.removeAttribute('aria-current');
+    }
+  }
+
+  // The current section is the last one whose top has passed 40% of the way down the screen.
+  // At the very bottom of the page it's always the last section.
+  function updateActive() {
+    if (performance.now() < lockUntil) return;
+    const line = window.innerHeight * 0.4;
+    let current = null;
+    for (const s of sections) if (s.getBoundingClientRect().top <= line) current = s.id;
+    const atBottom = window.innerHeight + window.scrollY >= root.scrollHeight - 2;
+    if (atBottom && sections.length) current = sections[sections.length - 1].id;
+    setActive(current);
+  }
+
+  function updateProgress() {
+    if (!progress) return;
+    const max = root.scrollHeight - window.innerHeight;
+    progress.style.transform = `scaleX(${max > 0 ? Math.min(1, window.scrollY / max).toFixed(4) : 0})`;
+  }
+
+  let scrollFrame = 0;
+  const onScroll = () => {
+    cancelAnimationFrame(scrollFrame);
+    scrollFrame = requestAnimationFrame(() => {
+      updateActive();
+      updateProgress();
+    });
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  window.addEventListener('resize', onScroll);
+
+  for (const a of menuLinks) {
+    a.addEventListener('click', () => {
+      setActive(a.hash.slice(1));
+      lockUntil = performance.now() + 1500;
+    });
+  }
+  // Any scrolling the visitor does themselves takes over from the click.
+  const unlock = () => { lockUntil = 0; };
+  window.addEventListener('scrollend', unlock);
+  for (const type of ['wheel', 'touchstart', 'keydown']) window.addEventListener(type, unlock, { passive: true });
+
+  updateActive();
+  updateProgress();
 
   /* ---------------- Live data ---------------- */
 
@@ -233,9 +304,9 @@
     if (!stampEl) return;
     if (lastLive) {
       const time = lastLive.toLocaleTimeString([], { hour: 'numeric', minute: '2-digit' });
-      stampEl.textContent = `Updated ${time}. Live from Roblox, refreshes every minute.`;
+      stampEl.textContent = `Numbers live from Roblox, updated ${time}.`;
     } else {
-      stampEl.textContent = "Couldn't reach Roblox just now, so these are numbers saved on 5 Nov 2026.";
+      stampEl.textContent = `Numbers saved on ${SAVED_ON}, from Roblox.`;
     }
   }
 
@@ -281,12 +352,12 @@
 
   // Swap an <img> to a new URL only once the new image has loaded.
   function swapImage(img, url) {
-    if (!url || img.getAttribute('src') === url) return;
+    if (!img || !url || img.getAttribute('src') === url) return;
     const probe = new Image();
     probe.onload = () => {
       img.src = url;
+      img.hidden = false;
       img.classList.remove('is-broken');
-      img.closest('.is-missing')?.classList.remove('is-missing');
     };
     probe.src = url;
   }
@@ -314,7 +385,7 @@
           for (const u of j.data ?? []) {
             const key = byUniverse[u.universeId];
             const urls = (u.thumbnails ?? []).filter((t) => t.state === 'Completed').map((t) => t.imageUrl);
-            if (key && urls.length) carousels[key]?.setImages(urls);
+            if (key) $$(`[data-game="${key}"] .slides img`).forEach((img, i) => swapImage(img, urls[i]));
           }
         }),
 
@@ -326,71 +397,6 @@
           }
         }),
     ]);
-  }
-
-  /* ---------------- Screenshot carousels ---------------- */
-
-  function makeCarousel(root) {
-    const track = root.querySelector('.slides');
-    const dots = root.querySelector('.dots');
-    const name = root.closest('.showcase')?.querySelector('.showcase__name')?.firstChild?.textContent.trim() ?? 'Game';
-    let slides = [];
-    let index = 0;
-    let timer = null;
-
-    function go(i) {
-      index = (i + slides.length) % slides.length;
-      slides.forEach((img, j) => img.classList.toggle('is-active', j === index));
-      [...dots.children].forEach((b, j) => {
-        b.classList.toggle('is-active', j === index);
-        b.setAttribute('aria-pressed', String(j === index));
-      });
-    }
-
-    function restart() {
-      clearInterval(timer);
-      if (slides.length < 2 || reduceMotion) return;
-      timer = setInterval(() => {
-        if (!root.closest('.panel')?.hidden && !document.hidden) go(index + 1);
-      }, 4500);
-    }
-
-    function build() {
-      slides = [...track.querySelectorAll('img')];
-      dots.replaceChildren(...slides.map((_, i) => {
-        const b = document.createElement('button');
-        b.type = 'button';
-        b.setAttribute('aria-label', `Show screenshot ${i + 1}`);
-        b.addEventListener('click', () => { go(i); restart(); });
-        return b;
-      }));
-      dots.hidden = slides.length < 2;
-      go(0);
-      restart();
-    }
-
-    build();
-
-    return {
-      setImages(urls) {
-        const current = slides.map((img) => img.getAttribute('src'));
-        if (urls.join() === current.join()) return;
-        track.replaceChildren(...urls.map((url, i) => {
-          const img = new Image(768, 432);
-          img.decoding = 'async';
-          img.alt = `${name} screenshot ${i + 1}`;
-          img.src = url;
-          return img;
-        }));
-        build();
-      },
-    };
-  }
-
-  const carousels = {};
-  for (const el of $$('[data-carousel]')) {
-    const key = el.closest('[data-game]')?.dataset.game;
-    if (key) carousels[key] = makeCarousel(el);
   }
 
   /* ---------------- Copy Discord username ---------------- */
@@ -430,59 +436,15 @@
     });
   }
 
-  /* ---------------- Pointer effects ---------------- */
-
-  const finePointer = window.matchMedia('(pointer: fine)').matches;
-
-  if (finePointer && !reduceMotion) {
-    // Avatar parallax: follow the mouse across the hero.
-    const hero = document.querySelector('.hero');
-    const art = document.querySelector('.hero__art');
-    let frame = 0;
-    hero?.addEventListener('pointermove', (e) => {
-      cancelAnimationFrame(frame);
-      frame = requestAnimationFrame(() => {
-        const r = hero.getBoundingClientRect();
-        const px = ((e.clientX - r.left) / r.width) * 2 - 1;
-        const py = ((e.clientY - r.top) / r.height) * 2 - 1;
-        art.style.setProperty('--px', px.toFixed(3));
-        art.style.setProperty('--py', py.toFixed(3));
-      });
-    });
-    hero?.addEventListener('pointerleave', () => {
-      cancelAnimationFrame(frame);
-      art.style.setProperty('--px', '0');
-      art.style.setProperty('--py', '0');
-    });
-
-    // Spotlight that follows the cursor on cards.
-    document.addEventListener('pointermove', (e) => {
-      const card = e.target.closest?.('.link, .game, .studio, .scard, .card, .event');
-      if (!card) return;
-      const r = card.getBoundingClientRect();
-      card.style.setProperty('--mx', `${e.clientX - r.left}px`);
-      card.style.setProperty('--my', `${e.clientY - r.top}px`);
-    }, { passive: true });
-  }
-
   /* ---------------- Go ---------------- */
 
   render();
 
-  // The home page intro plays once; afterwards hover effects take over.
-  setTimeout(() => document.documentElement.classList.remove('intro'), 2200);
-
-  // Place the pill without animating on first paint, then enable transitions.
-  pill?.classList.add('no-anim');
-  showTab(tabFromHash(), true);
-  requestAnimationFrame(() => requestAnimationFrame(() => pill?.classList.remove('no-anim')));
-
-  // Stop the browser jumping to the hidden section's anchor on load.
-  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
-  window.scrollTo(0, 0);
+  // The profile numbers count up as the page loads.
+  if (!reduceMotion) $$('.numbers [data-count]').forEach((el) => countUp(el, 550));
 
   if (STATIC) {
-    if (stampEl) stampEl.textContent = `Numbers from ${STATIC.date}. Data from Roblox.`;
+    if (stampEl) stampEl.textContent = `Numbers from ${STATIC.date}, from Roblox.`;
     return;
   }
 
